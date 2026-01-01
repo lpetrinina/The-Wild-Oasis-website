@@ -2,6 +2,9 @@ import Link from "next/link";
 
 // import ReservationCard from "./ReservationCard";
 
+export const metadata = {
+    title: 'Reservations'
+}
 
 export default function Page() {
     // CHANGE
