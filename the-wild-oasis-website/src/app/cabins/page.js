@@ -1,15 +1,15 @@
-import CabinCard from "@/src/components/CabinCard";
+import { Suspense } from "react";
 
-import { getCabins } from "@/src/lib/data-service";
+import CabinList from "@/src/components/CabinList";
+import Spinner from "@/src/components/Spinner";
+
 
 export const metadata = {
     title: 'Cabins'
 }
 
 
-export default async function CabinsPage() {
-
-    const cabins = await getCabins();
+export default function CabinsPage() {
 
     return (
         <div>
@@ -26,13 +26,9 @@ export default async function CabinsPage() {
                 to paradise.
             </p>
 
-            {cabins.length > 0 && (
-                <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-                    {cabins.map((cabin) => (
-                        <CabinCard cabin={cabin} key={cabin.id} />
-                    ))}
-                </div>
-            )}
+            <Suspense fallback={<Spinner />}>
+                <CabinList />
+            </Suspense>
         </div>
     );
 }
