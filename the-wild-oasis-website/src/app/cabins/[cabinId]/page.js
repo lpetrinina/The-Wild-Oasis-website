@@ -1,6 +1,9 @@
 import { getCabin, getCabins } from "@/src/lib/data-service";
+import { Suspense } from "react";
 
 import Cabin from "@/src/components/Cabin";
+import Reservation from "@/src/components/Reservation";
+import Spinner from "@/src/components/Spinner";
 
 
 export async function generateMetadata({ params }) {
@@ -29,10 +32,14 @@ export default async function Page({ params }) {
             <Cabin cabin={cabin} />
 
             <div>
-                <h2 className='text-5xl font-semibold text-center'>
+                <h2 className='text-5xl font-semibold text-center mb-10 text-accent-400'>
                     Reserve {cabin.name} today. Pay on arrival.
                 </h2>
             </div>
+
+            <Suspense fallback={<Spinner />}>
+                <Reservation cabin={cabin} />
+            </Suspense>
 
         </div>
     );
