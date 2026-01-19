@@ -16,6 +16,7 @@ function isAlreadyBooked(range, datesArr) {
 
 function DateSelector({ cabin, settings, bookedDates }) {
 
+
     // SETTINGS
     const { minBookingLength, maxBookingLength } = settings;
 
@@ -35,9 +36,9 @@ function DateSelector({ cabin, settings, bookedDates }) {
                 mode="range"
                 min={minBookingLength + 1}
                 max={maxBookingLength}
+                startDate={new Date()}
                 startMonth={new Date()}
-                fromDate={new Date()}
-                toYear={new Date().getFullYear() + 5}
+                endMonth={new Date(new Date().getFullYear() + 5, 11)}
                 captionLayout="dropdown"
                 numberOfMonths={1}
             />
