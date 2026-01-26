@@ -30,7 +30,13 @@ const authConfig = {
 
                 return false;
             }
+        },
+        async session({ session }) {
+            const currentGuest = await getGuest(session.user.email);
 
+            session.user.guestId = currentGuest.id;
+
+            return session;
         }
     },
     pages: {
