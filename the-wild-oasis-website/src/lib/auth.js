@@ -1,6 +1,9 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google"
 
+import { createGuest, getGuest } from "./data-service";
+
+
 const authConfig = {
     providers: [
         Google({
@@ -11,6 +14,23 @@ const authConfig = {
     callbacks: {
         authorized({ auth, request }) {
             return !!auth?.user;
+        },
+        async signIn({ user, account, profile }) {
+            try {
+                //  Check if a user already exists in db
+                const existingGuest = await getGuest(user.email);
+
+                // If no such user exists, create a new one
+                if (!existingGuest) {
+                    await createGuest({ email: user.email, fullName: user.name });
+                }
+
+                return true;
+            } catch (error) {
+
+                return false;
+            }
+
         }
     },
     pages: {
