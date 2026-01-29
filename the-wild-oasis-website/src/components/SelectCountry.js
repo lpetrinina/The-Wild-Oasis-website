@@ -2,7 +2,7 @@ import { getCountries } from '@/src/lib/data-service';
 
 // Let's imagine your colleague already built this component 😃
 
-async function SelectCountry({ defaultCountry, name, id, className }) {
+async function SelectCountry({ name, id, className, defaultCountry }) {
     const countries = await getCountries();
 
     const flag =
