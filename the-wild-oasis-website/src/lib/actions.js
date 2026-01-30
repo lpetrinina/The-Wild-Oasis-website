@@ -2,7 +2,7 @@
 
 import { supabase } from "./supabase";
 import { auth, signIn, signOut } from "./auth";
-import { revalidatePath } from "next/cache";
+import { refresh, revalidatePath } from "next/cache";
 
 export async function signInAction() {
     await signIn('google', { redirectTo: '/account' });
@@ -42,6 +42,7 @@ export async function updateProfile(formData) {
     }
 
     // Revalidate cache
+    refresh();
     revalidatePath('/account/profile');
 
 }
