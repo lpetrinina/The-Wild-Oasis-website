@@ -3,7 +3,9 @@
 import { supabase } from "./supabase";
 import { auth, signIn, signOut } from "./auth";
 import { refresh, revalidatePath } from "next/cache";
+
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 
 export async function signInAction() {
     await signIn("google", { redirectTo: "/account" });
@@ -14,7 +16,7 @@ export async function signOutAction() {
 }
 
 export async function updateProfile(formData) {
-    // Check if there is an authorized user
+    // Check if there is an authenticated user
     const session = await auth();
     if (!session) {
         throw new Error("You must be logged in!");
@@ -46,20 +48,56 @@ export async function updateProfile(formData) {
     revalidatePath("/account/profile");
 }
 
-export async function deleteReservation(bookingId) {
+export async function updateReservation(formData) {
+    const bookingId = Number(formData.get('bookingId'));
 
-    // Check if there is an authorized user
+    // Check if there is an authenticated user
+    const session = await auth();
+    if (!session) {
+        throw new Error("You must be logged in!");
+    };
+
+
+    // Check if the user is authorized to edit that booking
+    const guestBookings = await getBookings(session.user.guestId);
+    const guestBookingsIds = guestBookings.map((booking) => booking.id);
+
+    if (!guestBookingsIds.includes(bookingId)) {
+        throw new Error("You are not allowed to edit this booking!");
+    };
+
+    const updatedData = {
+        numGuests: Number(formData.get('numGuests')),
+        observations: formData.get('observations').slice(0, 1000),
+    };
+
+    const { error } = await supabase
+        .from("bookings")
+        .update(updatedData)
+        .eq("id", bookingId);
+
+    if (error) {
+        console.error(error);
+        throw new Error("Booking could not be updated");
+    }
+
+    revalidatePath(`/account/reservations/edit/${bookingId}`);
+    redirect("/account/reservations");
+}
+
+export async function deleteReservation(bookingId) {
+    // Check if there is an authenticated user
     const session = await auth();
     if (!session) {
         throw new Error("You must be logged in!");
     }
 
-    // Check if the reservation is really made by the user
+    // Check if the user is authorized to delete that booking
     const guestBookings = await getBookings(session.user.guestId);
-    const guestBookingsIds = guestBookings.map(booking => booking.id);
+    const guestBookingsIds = guestBookings.map((booking) => booking.id);
 
     if (!guestBookingsIds.includes(bookingId)) {
-        throw new Error('You are not allowed to delete this booking!')
+        throw new Error("You are not allowed to delete this booking!");
     }
 
     // Delete booking in Supabase

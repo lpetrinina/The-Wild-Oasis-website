@@ -1,3 +1,4 @@
+import { updateReservation } from "@/src/lib/actions";
 import { getBooking, getCabin } from "@/src/lib/data-service";
 
 
@@ -13,6 +14,7 @@ async function Page({ params }) {
             </h2>
 
             <form
+                action={updateReservation}
                 className='bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col'
             >
                 <div className='space-y-2'>
