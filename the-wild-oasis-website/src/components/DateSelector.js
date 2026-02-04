@@ -19,13 +19,13 @@ function isAlreadyBooked(range, datesArr) {
 function DateSelector({ cabin, settings, bookedDates }) {
     const { range, setRange, resetRange } = useReservation();
 
+    const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+
     const { minBookingLength, maxBookingLength } = settings;
     const { regularPrice, discount } = cabin;
 
-    const numNights = differenceInDays(range.to, range.from);
+    const numNights = differenceInDays(displayRange.to, displayRange.from);
     const cabinPrice = numNights * (regularPrice - discount);
-    console.log(bookedDates)
-
 
     return (
 
@@ -42,7 +42,7 @@ function DateSelector({ cabin, settings, bookedDates }) {
                 captionLayout="dropdown"
                 numberOfMonths={1}
                 onSelect={(currentRange) => setRange(currentRange)}
-                selected={range}
+                selected={displayRange}
                 disabled={(currentDate) => isPast(currentDate) || bookedDates.some(date => isSameDay(date, currentDate))}
             />
 
