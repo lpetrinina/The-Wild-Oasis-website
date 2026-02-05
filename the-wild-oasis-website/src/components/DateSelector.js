@@ -1,20 +1,12 @@
 'use client';
 
-import { differenceInDays, isPast, isSameDay, isWithinInterval } from "date-fns";
+import { differenceInDays, isPast, isSameDay } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 import { useReservation } from "./ReservationContext";
+import { isAlreadyBooked } from "../lib/helpers/isAlreadyBooked";
 
-function isAlreadyBooked(range, datesArr) {
-    return (
-        range.from &&
-        range.to &&
-        datesArr.some((date) =>
-            isWithinInterval(date, { start: range.from, end: range.to })
-        )
-    );
-}
 
 function DateSelector({ cabin, settings, bookedDates }) {
     const { range, setRange, resetRange } = useReservation();
