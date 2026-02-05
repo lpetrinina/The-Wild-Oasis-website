@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { differenceInDays } from "date-fns";
 
@@ -6,8 +6,7 @@ import { useReservation } from "./ReservationContext";
 import { createReservation } from "../lib/actions";
 
 function ReservationForm({ cabin, user }) {
-
-    const { range } = useReservation();
+    const { range, resetRange } = useReservation();
     const { id, maxCapacity, regularPrice, discount } = cabin;
 
     const startDate = range.from;
@@ -15,12 +14,18 @@ function ReservationForm({ cabin, user }) {
     const numNights = differenceInDays(endDate, startDate);
     const cabinPrice = numNights * (regularPrice - discount);
 
-    const bookingData = { cabinId: id, startDate, endDate, numNights, cabinPrice };
+    const bookingData = {
+        cabinId: id,
+        startDate,
+        endDate,
+        numNights,
+        cabinPrice,
+    };
 
     const createReservationWithData = createReservation.bind(null, bookingData); // attach the booking data to the createReservation Server Action
 
     return (
-        <div >
+        <div>
             <div className='bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center'>
                 <p>Logged in as</p>
 
@@ -36,7 +41,13 @@ function ReservationForm({ cabin, user }) {
                 </div>
             </div>
 
-            <form action={createReservationWithData} className='bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col'>
+            <form
+                action={async (formData) => {
+                    resetRange();
+                    createReservationWithData(formData);
+                }}
+                className='bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col'
+            >
                 <div className='space-y-2'>
                     <label htmlFor='numGuests'>How many guests?</label>
                     <select
@@ -50,7 +61,7 @@ function ReservationForm({ cabin, user }) {
                         </option>
                         {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
                             <option value={x} key={x}>
-                                {x} {x === 1 ? 'guest' : 'guests'}
+                                {x} {x === 1 ? "guest" : "guests"}
                             </option>
                         ))}
                     </select>

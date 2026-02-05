@@ -81,6 +81,8 @@ export async function createReservation(bookigData, formData) {
         throw new Error("Booking could not be created");
     }
 
+    revalidatePath(`/cabins/${bookigData.cabinId}`);
+
 }
 
 export async function updateReservation(formData) {
