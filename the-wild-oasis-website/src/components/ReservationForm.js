@@ -4,11 +4,15 @@ import { differenceInDays } from "date-fns";
 
 import { useReservation } from "./ReservationContext";
 import { createReservation } from "../lib/actions";
+import { isAlreadyBooked } from "../lib/helpers/isAlreadyBooked";
 import SubmitButton from "./SubmitButton";
 
-function ReservationForm({ cabin, user }) {
+function ReservationForm({ cabin, user, bookedDates }) {
     const { range, resetRange } = useReservation();
     const { id, maxCapacity, regularPrice, discount } = cabin;
+
+    const displayRange = isAlreadyBooked(range, bookedDates) ? { from: undefined, to: undefined } : range;
+    const hasSelectedRange = displayRange.from && displayRange.to;
 
     const startDate = range.from;
     const endDate = range.to;
@@ -24,8 +28,6 @@ function ReservationForm({ cabin, user }) {
     };
 
     const createReservationWithData = createReservation.bind(null, bookingData); // attach the booking data to the createReservation Server Action
-
-    const hasSelectedRange = range?.from && range?.to;
 
     return (
         <div>
