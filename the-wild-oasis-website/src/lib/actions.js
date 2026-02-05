@@ -7,6 +7,7 @@ import { refresh, revalidatePath } from "next/cache";
 import { getBookings } from "./data-service";
 import { redirect } from "next/navigation";
 
+
 export async function signInAction() {
     await signIn("google", { redirectTo: "/account" });
 }
@@ -46,6 +47,40 @@ export async function updateProfile(formData) {
     // Revalidate cache
     refresh();
     revalidatePath("/account/profile");
+}
+
+export async function createReservation(bookigData, formData) {
+
+    // Check if there is an authenticated user
+    const session = await auth();
+    if (!session) {
+        throw new Error("You must be logged in!");
+    };
+
+    const numGuests = Number(formData.get('numGuests'));
+    const observations = formData.get('observations').slice(0, 1000); // Get only 1000 chars to prevent sending huge data to db
+
+    const newBooking = {
+        ...bookigData,
+        numGuests,
+        observations,
+        extrasPrice: 0,
+        totalPrice: bookigData.cabinPrice,
+        status: 'unconfirmed',
+        hasBreakfast: false,
+        isPaid: false,
+        guestId: session.user.guestId
+    }
+
+    const { error } = await supabase
+        .from("bookings")
+        .insert([newBooking])
+
+    if (error) {
+        console.error(error);
+        throw new Error("Booking could not be created");
+    }
+
 }
 
 export async function updateReservation(formData) {
