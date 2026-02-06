@@ -8,7 +8,8 @@ import { isAlreadyBooked } from "../lib/helpers/isAlreadyBooked";
 import SubmitButton from "./SubmitButton";
 
 function ReservationForm({ cabin, user, bookedDates }) {
-    const { range, resetRange } = useReservation();
+
+    const { range } = useReservation();
     const { id, maxCapacity, regularPrice, discount } = cabin;
 
     const displayRange = isAlreadyBooked(range, bookedDates) ? { from: undefined, to: undefined } : range;
@@ -46,11 +47,7 @@ function ReservationForm({ cabin, user, bookedDates }) {
                 </div>
             </div>
 
-            <form
-                action={async (formData) => {
-                    await createReservationWithData(formData);
-                    resetRange();
-                }}
+            <form action={createReservationWithData}
                 className='bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col'
             >
                 <div className='space-y-2'>
