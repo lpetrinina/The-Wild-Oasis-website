@@ -45,8 +45,8 @@ export async function updateProfile(formData) {
     }
 
     // Revalidate cache
-    refresh();
     revalidatePath("/account/profile");
+    redirect('/account')
 }
 
 export async function createReservation(bookigData, formData) {

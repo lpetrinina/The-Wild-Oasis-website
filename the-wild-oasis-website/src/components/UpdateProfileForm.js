@@ -35,7 +35,7 @@ function UpdateProfileForm({ guest, children }) {
                 <div className='flex items-center justify-between'>
                     <label htmlFor='nationality'>Where are you from?</label>
                     <img
-                        src={countryFlag}
+                        src={countryFlag || null}
                         alt='Country flag'
                         className='h-5 rounded-sm'
                     />
@@ -51,7 +51,10 @@ function UpdateProfileForm({ guest, children }) {
                     name='nationalID'
                     defaultValue={nationalID}
                     className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
+                    required
                 />
+                <p className="italic text-gray-500">Please enter an ID with letters and numbers only, maximum 12 characters.</p>
+
             </div>
 
             <div className='flex justify-end items-center gap-6'>
