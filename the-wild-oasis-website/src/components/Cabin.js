@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { EyeSlashIcon, MapPinIcon, UsersIcon, ClockIcon } from "@heroicons/react/24/solid";
 
 import TextExpander from "./TextExpander";
 
+import { getSettings } from "../lib/data-service";
 
-function Cabin({ cabin }) {
+async function Cabin({ cabin }) {
 
-    const { id, name, maxCapacity, regularPrice, discount, image, description } =
-        cabin;
+    const { name, maxCapacity, image, description } = cabin;
+    const { minBookingLength } = await getSettings();
 
     return (
 
@@ -49,6 +50,12 @@ function Cabin({ cabin }) {
                             Privacy <span className='font-bold'>100%</span> guaranteed
                         </span>
                     </li>
+                    <li className='flex gap-3 items-center'>
+                        <ClockIcon className='h-5 w-5 text-primary-600' />
+                        <span className='text-lg'>
+                            Reserve for <span className='font-bold'>{minBookingLength + 1}+</span> nights
+                        </span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,3 +64,6 @@ function Cabin({ cabin }) {
 }
 
 export default Cabin;
+
+
+

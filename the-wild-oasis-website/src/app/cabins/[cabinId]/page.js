@@ -1,10 +1,10 @@
-import { getCabin, getCabins } from "@/src/lib/data-service";
 import { Suspense } from "react";
 
 import Cabin from "@/src/components/Cabin";
 import Reservation from "@/src/components/Reservation";
 import Spinner from "@/src/components/Spinner";
 
+import { getCabin, getCabins } from "@/src/lib/data-service";
 
 export async function generateMetadata({ params }) {
 
@@ -25,7 +25,6 @@ export async function generateStaticParams() {
 export default async function Page({ params }) {
     const { cabinId } = await params;
     const cabin = await getCabin(cabinId);
-
 
     return (
         <div className='max-w-6xl mx-auto mt-8'>
