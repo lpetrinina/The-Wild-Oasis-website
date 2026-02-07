@@ -90,7 +90,7 @@ export async function createReservation(bookigData, formData) {
 }
 
 export async function updateReservation(formData) {
-    const bookingId = Number(formData.get('bookingId'));
+    const bookingId = Number(formData.get("bookingId"));
 
     // Check if there is an authenticated user
     const session = await auth();
@@ -105,11 +105,26 @@ export async function updateReservation(formData) {
 
     if (!guestBookingsIds.includes(bookingId)) {
         throw new Error("You are not allowed to edit this booking!");
-    };
+    }
+
+    const [{ numNights, cabinPrice }, { breakfastPrice }] = await Promise.all([
+        getBooking(bookingId),
+        getSettings()
+    ]);
+
+    const numGuests = Number(formData.get("numGuests"));
+    const observations = formData.get("observations").slice(0, 1000);
+
+    const hasBreakfast = formData.has("hasBreakfast");
+    const extrasPrice = hasBreakfast ? numGuests * numNights * breakfastPrice : 0;
+    const totalPrice = cabinPrice + extrasPrice;
 
     const updatedData = {
-        numGuests: Number(formData.get('numGuests')),
-        observations: formData.get('observations').slice(0, 1000),
+        numGuests,
+        observations,
+        hasBreakfast,
+        extrasPrice,
+        totalPrice,
     };
 
     const { error } = await supabase

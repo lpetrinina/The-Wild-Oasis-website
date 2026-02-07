@@ -19,10 +19,10 @@ function ReservationCard({ booking }) {
         numNights,
         numGuests,
         totalPrice,
-        status,
-        guestId,
+        hasBreakfast,
         cabins: { name, image },
     } = booking;
+
 
     return (
         <div className='flex border border-primary-800'>
@@ -66,6 +66,14 @@ function ReservationCard({ booking }) {
                     <p className='text-lg text-primary-300'>
                         {numGuests} guest{numGuests > 1 && 's'}
                     </p>
+                    {hasBreakfast &&
+                        <>
+                            <p className='text-primary-300'>&bull;</p>
+                            <p className='text-lg text-primary-300'>
+                                breakfast
+                            </p>
+                        </>
+                    }
                     <p className='ml-auto text-sm text-primary-400'>
                         Booked {format(new Date(created_at), 'EEE, MMM dd yyyy, p')}
                     </p>

@@ -1,12 +1,14 @@
 import SubmitButton from "@/src/components/SubmitButton";
 import { updateReservation } from "@/src/lib/actions";
-import { getBooking, getCabin } from "@/src/lib/data-service";
-
+import { getBooking, getCabin, getSettings } from "@/src/lib/data-service";
 
 async function Page({ params }) {
     const { bookingId } = await params;
-    const { cabinId, numGuests, observations } = await getBooking(bookingId);
-    const { maxCapacity } = await getCabin(cabinId);
+    const { cabinId, numGuests, observations, hasBreakfast } = await getBooking(bookingId);
+    const [{ maxCapacity }, { breakfastPrice }] = await Promise.all([
+        getCabin(cabinId),
+        getSettings()
+    ]);
 
     return (
         <div>
@@ -49,16 +51,24 @@ async function Page({ params }) {
                     />
                 </div>
 
-                <input
-                    type="hidden"
-                    name='bookingId'
-                    value={bookingId}
-                />
+                <div>
+                    <label htmlFor='hasBreakfast' className='flex gap-2 items-center'>
+                        <input
+                            className='h-6 aspect-square mb-0.5 '
+                            type='checkbox'
+                            name='hasBreakfast'
+                            id='hasBreakfast'
+                            defaultChecked={hasBreakfast}
+                        />
+                        Include breakfast +${breakfastPrice}
+                        <span className='text-sm'>per guest /day</span>
+                    </label>
+                </div>
+
+                <input type='hidden' name='bookingId' value={bookingId} />
 
                 <div className='flex justify-end items-center gap-6'>
-                    <SubmitButton>
-                        Update reservation
-                    </SubmitButton>
+                    <SubmitButton>Update reservation</SubmitButton>
                 </div>
             </form>
         </div>
