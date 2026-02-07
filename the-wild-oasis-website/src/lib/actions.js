@@ -50,6 +50,7 @@ export async function updateProfile(formData) {
 }
 
 export async function createReservation(bookigData, formData) {
+    console.log(formData)
 
     // Check if there is an authenticated user
     const session = await auth();
@@ -59,15 +60,17 @@ export async function createReservation(bookigData, formData) {
 
     const numGuests = Number(formData.get('numGuests'));
     const observations = formData.get('observations').slice(0, 1000); // Get only 1000 chars to prevent sending huge data to db
+    const hasBreakfast = formData.has('breakfast') ? true : false;
+    const extrasPrice = hasBreakfast ? formData.get('breakfast') * numGuests * bookigData.numNights : 0;
 
     const newBooking = {
         ...bookigData,
         numGuests,
         observations,
-        extrasPrice: 0,
-        totalPrice: bookigData.cabinPrice,
+        extrasPrice,
+        totalPrice: bookigData.cabinPrice + extrasPrice,
         status: 'unconfirmed',
-        hasBreakfast: false,
+        hasBreakfast,
         isPaid: false,
         guestId: session.user.guestId
     }

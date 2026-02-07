@@ -7,7 +7,7 @@ import { createReservation } from "../lib/actions";
 import { isAlreadyBooked } from "../lib/helpers/isAlreadyBooked";
 import SubmitButton from "./SubmitButton";
 
-function ReservationForm({ cabin, user, bookedDates }) {
+function ReservationForm({ cabin, user, bookedDates, settings }) {
 
     const { range } = useReservation();
     const { id, maxCapacity, regularPrice, discount } = cabin;
@@ -79,6 +79,14 @@ function ReservationForm({ cabin, user, bookedDates }) {
                         className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
                         placeholder='Any pets, allergies, special requirements, etc.?'
                     />
+                </div>
+
+                <div className="">
+                    <label htmlFor='breakfast' className='flex gap-2 items-center'>
+                        <input className="h-6 aspect-square mb-0.5 " type="checkbox" name="breakfast" id="breakfast" value={settings.breakfastPrice} />
+                        Include breakfast +${settings.breakfastPrice}
+                        <span className="text-sm">per guest /day</span>
+                    </label>
                 </div>
 
                 <div className='flex justify-end items-center gap-6'>
