@@ -81,9 +81,9 @@ function ReservationForm({ cabin, user, bookedDates, settings }) {
                     />
                 </div>
 
-                <div className="">
-                    <label htmlFor='breakfast' className='flex gap-2 items-center'>
-                        <input className="h-6 aspect-square mb-0.5 " type="checkbox" name="breakfast" id="breakfast" value={settings.breakfastPrice} />
+                <div>
+                    <label htmlFor='hasBreakfast' className='flex gap-2 items-center'>
+                        <input className="h-6 aspect-square mb-0.5 " type="checkbox" name="hasBreakfast" id="hasBreakfast" />
                         Include breakfast +${settings.breakfastPrice}
                         <span className="text-sm">per guest /day</span>
                     </label>

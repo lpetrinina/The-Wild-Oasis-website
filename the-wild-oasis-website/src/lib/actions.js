@@ -2,11 +2,10 @@
 
 import { supabase } from "./supabase";
 import { auth, signIn, signOut } from "./auth";
-import { refresh, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 
-import { getBookings } from "./data-service";
+import { getBooking, getBookings, getSettings } from "./data-service";
 import { redirect } from "next/navigation";
-
 
 export async function signInAction() {
     await signIn("google", { redirectTo: "/account" });
@@ -46,22 +45,22 @@ export async function updateProfile(formData) {
 
     // Revalidate cache
     revalidatePath("/account/profile");
-    redirect('/account')
+    redirect("/account");
 }
 
 export async function createReservation(bookigData, formData) {
-    console.log(formData)
+    const { breakfastPrice } = await getSettings();
 
     // Check if there is an authenticated user
     const session = await auth();
     if (!session) {
         throw new Error("You must be logged in!");
-    };
+    }
 
-    const numGuests = Number(formData.get('numGuests'));
-    const observations = formData.get('observations').slice(0, 1000); // Get only 1000 chars to prevent sending huge data to db
-    const hasBreakfast = formData.has('breakfast') ? true : false;
-    const extrasPrice = hasBreakfast ? formData.get('breakfast') * numGuests * bookigData.numNights : 0;
+    const numGuests = Number(formData.get("numGuests"));
+    const observations = formData.get("observations").slice(0, 1000); // Get only 1000 chars to prevent sending huge data to db
+    const hasBreakfast = formData.has("hasBreakfast");
+    const extrasPrice = hasBreakfast ? breakfastPrice * numGuests * bookigData.numNights : 0;
 
     const newBooking = {
         ...bookigData,
@@ -69,15 +68,13 @@ export async function createReservation(bookigData, formData) {
         observations,
         extrasPrice,
         totalPrice: bookigData.cabinPrice + extrasPrice,
-        status: 'unconfirmed',
+        status: "unconfirmed",
         hasBreakfast,
         isPaid: false,
-        guestId: session.user.guestId
-    }
+        guestId: session.user.guestId,
+    };
 
-    const { error } = await supabase
-        .from("bookings")
-        .insert([newBooking])
+    const { error } = await supabase.from("bookings").insert([newBooking]);
 
     if (error) {
         console.error(error);
@@ -85,8 +82,7 @@ export async function createReservation(bookigData, formData) {
     }
 
     revalidatePath(`/cabins/${bookigData.cabinId}`);
-    redirect('/cabins/thank-you');
-
+    redirect("/cabins/thank-you");
 }
 
 export async function updateReservation(formData) {
@@ -96,8 +92,7 @@ export async function updateReservation(formData) {
     const session = await auth();
     if (!session) {
         throw new Error("You must be logged in!");
-    };
-
+    }
 
     // Check if the user is authorized to edit that booking
     const guestBookings = await getBookings(session.user.guestId);
