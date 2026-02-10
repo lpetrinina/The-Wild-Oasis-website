@@ -48,7 +48,7 @@ export default async function AboutPage() {
                 <Image
                     src={image_1}
                     fill={true}
-                    quality={80}
+                    quality={70}
                     placeholder='blur'
                     alt='Family sitting around a fire pit in front of cabin'
                 />
@@ -58,7 +58,7 @@ export default async function AboutPage() {
                 <Image
                     src={image_2}
                     fill={true}
-                    quality={80}
+                    quality={70}
                     placeholder="blur"
                     alt='Family that manages The Wild Oasis'
                 />

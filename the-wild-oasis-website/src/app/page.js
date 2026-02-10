@@ -8,9 +8,10 @@ export default function Home() {
         <div className='mt-24'>
             <Image
                 src={bg}
-                fill
+                fill={true}
                 quality={75}
                 placeholder="blur"
+                loading="eager"
                 className='object-cover object-top'
                 alt='Mountains and forests with two cabins'
             />
