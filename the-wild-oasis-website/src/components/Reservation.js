@@ -15,7 +15,7 @@ async function Reservation({ cabin }) {
     const session = await auth();
 
     return (
-        <div className='grid grid-cols-1 max-h-[450] lg:grid-cols-2 border border-primary-800'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 border border-primary-800'>
             <DateSelector
                 cabin={cabin}
                 settings={settings}

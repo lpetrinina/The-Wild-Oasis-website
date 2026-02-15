@@ -12,7 +12,7 @@ async function Cabin({ cabin }) {
 
     return (
 
-        <div className='grid grid-cols-1 sm:grid-cols-[3fr_4fr] gap-8 md:gap-16 border border-primary-800 px-5 md:px-10 py-5 mb-14 sm:mb-24'>
+        <div className='grid grid-cols-1 sm:grid-cols-[3fr_4fr] gap-8 md:gap-16 border border-primary-800 px-4 sm:px-10 py-5 mb-16 sm:mb-24'>
 
 
             <div className='relative aspect-4/3 sm:aspect-auto sm:scale-[1.15] sm:-translate-x-3'>
