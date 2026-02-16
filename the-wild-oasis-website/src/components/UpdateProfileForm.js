@@ -9,7 +9,7 @@ function UpdateProfileForm({ guest, children }) {
     return (
         <form
             action={updateProfile}
-            className='bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col'
+            className='bg-primary-900 py-6 px-4 sm:py-8 sm:px-12 text-base sm:text-lg flex flex-col gap-5 sm:gap-6'
         >
             <div className='space-y-2'>
                 <label>Full name</label>
@@ -17,7 +17,7 @@ function UpdateProfileForm({ guest, children }) {
                     disabled
                     name='fullName'
                     defaultValue={fullName}
-                    className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400'
+                    className='px-4 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400'
                 />
             </div>
 
@@ -27,7 +27,7 @@ function UpdateProfileForm({ guest, children }) {
                     disabled
                     name='email'
                     defaultValue={email}
-                    className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400'
+                    className='px-4 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400'
                 />
             </div>
 
@@ -50,14 +50,14 @@ function UpdateProfileForm({ guest, children }) {
                 <input
                     name='nationalID'
                     defaultValue={nationalID}
-                    className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
+                    className='px-4 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
                     required
                 />
-                <p className="italic text-gray-500">Please enter an ID with letters and numbers only, maximum 12 characters.</p>
+                <p className="italic text-sm sm:text-base text-primary-400">Please enter an ID with letters and numbers only, maximum 12 characters.</p>
 
             </div>
 
-            <div className='flex justify-end items-center gap-6'>
+            <div className='flex justify-center sm:justify-end'>
                 <SubmitButton>
                     Update profile
                 </SubmitButton>
