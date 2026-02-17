@@ -11,6 +11,6 @@ export default async function AccountPage() {
     const firstName = session.user.name.split(' ').at(0);
 
     return (
-        <h2 className='font-semibold text-2xl text-accent-400'> Welcome, {firstName}</h2>
+        <h2 className='font-semibold text-xl sm:text-2xl text-accent-400'> Welcome, {firstName}</h2>
     );
 }
