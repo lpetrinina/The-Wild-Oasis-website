@@ -2,8 +2,6 @@
 
 import {
     CalendarDaysIcon,
-    ChevronDoubleLeftIcon,
-    ChevronDoubleRightIcon,
     HomeIcon,
     UserIcon,
 } from "@heroicons/react/24/solid";
@@ -11,7 +9,6 @@ import Link from "next/link";
 
 import SignOutButton from "./SignOutButton";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 
 const navLinks = [
     {
@@ -40,7 +37,6 @@ function SideNavigation() {
         <nav
             className={'h-full bg-primary-950  border-r border-primary-900'}
         >
-
             <ul className='flex flex-col gap-2 h-full text-lg'>
                 {navLinks.map((link) => (
                     <li key={link.name}>

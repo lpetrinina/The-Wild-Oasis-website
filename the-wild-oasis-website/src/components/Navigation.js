@@ -53,7 +53,7 @@ export default function Navigation() {
             {/* Mobile button */}
             <div className='md:hidden relative z-50'>
                 <button
-                    className='hover:text-accent-400 relative h-6 w-6'
+                    className='hover:text-accent-400 relative h-6 w-6 '
                     onClick={() => setOpen(!open)}
                 >
                     <Bars3Icon

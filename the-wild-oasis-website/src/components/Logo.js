@@ -7,9 +7,12 @@ function Logo() {
 
     return (
         <Link href='/' className='flex items-center gap-4 z-10'>
-            <Image src={logo} height='60' width='60' alt='The Wild Oasis logo' loading="eager" />
+            <div className="w-13 md:w-15 aspect-square">
+                <Image src={logo} className="object-cover" alt='The Wild Oasis logo' loading="eager" />
 
-            <span className='text-xl font-semibold text-primary-100'>
+            </div>
+
+            <span className='text-lg md:text-xl font-semibold text-primary-100'>
                 The Wild Oasis
             </span>
         </Link>
