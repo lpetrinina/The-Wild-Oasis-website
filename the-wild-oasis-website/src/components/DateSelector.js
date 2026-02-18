@@ -12,18 +12,19 @@ function DateSelector({ cabin, settings, bookedDates }) {
     const { range, setRange, resetRange } = useReservation();
 
     const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+    const hasValidRange = range?.from && range?.to && !isAlreadyBooked(range, bookedDates);
 
     const { minBookingLength, maxBookingLength } = settings;
     const { regularPrice, discount } = cabin;
 
-    const numNights = differenceInDays(displayRange.to, displayRange.from);
-    const cabinPrice = numNights * (regularPrice - discount);
+    const numNights = hasValidRange ? differenceInDays(displayRange.to, displayRange.from) : 0;
+    const cabinPrice = hasValidRange ? numNights * (regularPrice - discount) : 0;
 
     return (
 
         <div className="flex flex-col justify-between">
             <DayPicker
-                className="pt-12 place-self-center px-4 text-sm sm:text-base"
+                className="pt-12 lg:pt-20 place-self-center px-4 pb-2 sm:pb-4 text-sm sm:text-base"
                 animate
                 mode="range"
                 min={minBookingLength + 1}
@@ -38,11 +39,12 @@ function DateSelector({ cabin, settings, bookedDates }) {
                 disabled={(currentDate) => isPast(currentDate) || bookedDates.some(date => isSameDay(date, currentDate))}
             />
 
-            <div className="flex items-center justify-between px-4 sm:px-8 bg-accent-500 text-primary-800 h-18">
+            <div className="flex flex-col sm:flex-row gap-2 items-center sm:justify-between px-4 py-2 sm:px-6 sm:py-4 bg-accent-500 text-primary-800 min-h-30 sm:min-h-20">
 
-                <div className="flex items-center gap-4 sm:gap-6">
+                <div className="flex items-center justify-center gap-4">
 
-                    <p className="flex gap-1 sm:gap-2 items-baseline">
+                    {/* Cabin Price */}
+                    <p className="flex gap-1 items-baseline">
                         {discount > 0 ? (
                             <>
                                 <span className="text-xl sm:text-2xl">${regularPrice - discount}</span>
@@ -56,29 +58,45 @@ function DateSelector({ cabin, settings, bookedDates }) {
                         <span>/night</span>
                     </p>
 
-                    {numNights ? (
-                        <>
-                            <p className="bg-accent-600 px-2 py-1 sm:px-4 sm:py-2 text-xl sm:text-2xl">
-                                <span>&times;</span> <span>{numNights}</span>
+                    <div className="flex items-center relative">
+
+                        {/* Placeholder */}
+                        <p className={`absolute text-base font-medium mt-0.5 transition-all duration-300 ease-out 
+                            ${hasValidRange ? 'opacity-0 translate-y-1' : 'opacity-60 translate-y-0'}`
+                        }>
+                            Set your stay
+                        </p>
+
+                        {/* Nights + Total Price */}
+                        <div className={`flex gap-4 items-center transition-all duration-300 ease-out
+                            ${hasValidRange ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'}`
+                        }>
+
+                            <p className='bg-accent-600 px-1.5 py-1 md:p-1 text-lg sm:text-xl tabular-nums font-semibold'>
+                                <span>&times;</span>{' '}<span>{numNights} </span>
                             </p>
-                            <p className="flex items-center sm:gap-1 flex-col sm:flex-row">
-                                <span className="text-base sm:text-lg font-bold uppercase">Total</span>{" "}
-                                <span className="text-lg sm:text-2xl font-semibold">${cabinPrice}</span>
+
+                            <p className='flex flex-col sm:flex-row sm:gap-1 items-center mt-1'>
+                                <span className="text-base sm:text-lg font-bold uppercase tracking-wide">Total</span>
+                                <span className='text-lg sm:text-2xl font-semibold tabular-nums'>${cabinPrice}</span>
                             </p>
-                        </>
-                    ) : null}
+
+                        </div>
+                    </div>
+
                 </div>
 
-                {range?.from || range?.to ? (
-                    <button
-                        className="border border-primary-800 px-2 py-1 sm:px-4 sm:py-2 text-sm font-semibold"
-                        onClick={resetRange}
-                    >
-                        Clear
-                    </button>
-                ) : null}
+                <button
+                    className="border border-primary-800 px-4 py-2 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={resetRange}
+                    disabled={!hasValidRange}
+                >
+                    Clear
+                </button>
+
             </div>
-        </div>
+
+        </div >
     );
 }
 

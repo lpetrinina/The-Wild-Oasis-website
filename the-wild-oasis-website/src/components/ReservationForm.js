@@ -48,7 +48,7 @@ function ReservationForm({ cabin, user, bookedDates, settings }) {
             </div>
 
             <form action={createReservationWithData}
-                className='bg-primary-900 px-4 py-6 sm:px-16 sm:py-10 text-base sm:text-lg flex flex-col gap-6'
+                className='bg-primary-900 px-4 py-6 sm:px-16 sm:py-10  text-base sm:text-lg flex flex-col gap-6'
             >
                 <div className='space-y-2'>
                     <label htmlFor='numGuests'>How many guests?</label>
