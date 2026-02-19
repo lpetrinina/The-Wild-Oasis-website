@@ -5,9 +5,11 @@ import { differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
 import { createReservation } from "../lib/actions";
 import { isAlreadyBooked } from "../lib/helpers/isAlreadyBooked";
-import SubmitButton from "./SubmitButton";
 
-function ReservationForm({ cabin, user, bookedDates, settings }) {
+import SubmitButton from "./SubmitButton";
+import BreakfastOption from "./BreakfastOption";
+
+function ReservationForm({ cabin, user, bookedDates, breakfastPrice }) {
 
     const { range } = useReservation();
     const { id, maxCapacity, regularPrice, discount } = cabin;
@@ -81,13 +83,7 @@ function ReservationForm({ cabin, user, bookedDates, settings }) {
                     />
                 </div>
 
-                <div>
-                    <label htmlFor='hasBreakfast' className='flex gap-1 sm:gap-2 items-center'>
-                        <input className="h-5 sm:h-6 aspect-square mb-0.5 " type="checkbox" name="hasBreakfast" id="hasBreakfast" />
-                        Include breakfast +${settings.breakfastPrice}
-                        <span className="text-sm">per guest /day</span>
-                    </label>
-                </div>
+                <BreakfastOption breakfastPrice={breakfastPrice} />
 
                 <div className='flex flex-col-reverse sm:flex-row sm:justify-end items-center gap-4'>
 

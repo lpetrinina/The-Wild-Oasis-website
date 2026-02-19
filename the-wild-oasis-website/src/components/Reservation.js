@@ -27,7 +27,7 @@ async function Reservation({ cabin }) {
                     cabin={cabin}
                     user={session.user}
                     bookedDates={bookedDates}
-                    settings={settings}
+                    breakfastPrice={settings.breakfastPrice}
                 />
             ) : (
                 <LoginMessage />
