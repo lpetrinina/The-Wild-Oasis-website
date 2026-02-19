@@ -1,6 +1,8 @@
-import SubmitButton from "@/src/components/SubmitButton";
 import { updateReservation } from "@/src/lib/actions";
 import { getBooking, getCabin, getSettings } from "@/src/lib/data-service";
+
+import SubmitButton from "@/src/components/SubmitButton";
+import BreakfastOption from "@/src/components/BreakfastOption";
 
 async function Page({ params }) {
     const { bookingId } = await params;
@@ -12,13 +14,13 @@ async function Page({ params }) {
 
     return (
         <div>
-            <h2 className='font-semibold text-2xl text-accent-400 mb-7'>
+            <h2 className='font-semibold text-base sm:text-2xl text-accent-400 mb-6 sm:mb-8'>
                 Edit Reservation #{bookingId}
             </h2>
 
             <form
                 action={updateReservation}
-                className='bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col'
+                className='flex gap-6 flex-col bg-primary-900 py-6 px-4 sm:py-8 sm:px-12 text-base sm:text-lg '
             >
                 <div className='space-y-2'>
                     <label htmlFor='numGuests'>How many guests?</label>
@@ -26,7 +28,7 @@ async function Page({ params }) {
                         name='numGuests'
                         id='numGuests'
                         defaultValue={numGuests}
-                        className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
+                        className='px-4 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
                         required
                     >
                         <option value='' key=''>
@@ -47,27 +49,15 @@ async function Page({ params }) {
                     <textarea
                         name='observations'
                         defaultValue={observations}
-                        className='px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
+                        className='px-4 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm'
                     />
                 </div>
 
-                <div>
-                    <label htmlFor='hasBreakfast' className='flex gap-2 items-center'>
-                        <input
-                            className='h-6 aspect-square mb-0.5 '
-                            type='checkbox'
-                            name='hasBreakfast'
-                            id='hasBreakfast'
-                            defaultChecked={hasBreakfast}
-                        />
-                        Include breakfast +${breakfastPrice}
-                        <span className='text-sm'>per guest /day</span>
-                    </label>
-                </div>
+                <BreakfastOption hasBreakfast={hasBreakfast} breakfastPrice={breakfastPrice} />
 
                 <input type='hidden' name='bookingId' value={bookingId} />
 
-                <div className='flex justify-end items-center gap-6'>
+                <div className='flex justify-center sm:justify-end items-center'>
                     <SubmitButton>Update reservation</SubmitButton>
                 </div>
             </form>
