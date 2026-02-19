@@ -12,6 +12,8 @@ async function Page({ params }) {
         getSettings()
     ]);
 
+    const updateReservationWithData = updateReservation.bind(null, Number(bookingId));// attach the bookingId to the updateReservation Server Action
+
     return (
         <div>
             <h2 className='font-semibold text-base sm:text-2xl text-accent-400 mb-6 sm:mb-8'>
@@ -19,7 +21,7 @@ async function Page({ params }) {
             </h2>
 
             <form
-                action={updateReservation}
+                action={updateReservationWithData}
                 className='flex gap-6 flex-col bg-primary-900 py-6 px-4 sm:py-8 sm:px-12 text-base sm:text-lg '
             >
                 <div className='space-y-2'>
@@ -54,8 +56,6 @@ async function Page({ params }) {
                 </div>
 
                 <BreakfastOption hasBreakfast={hasBreakfast} breakfastPrice={breakfastPrice} />
-
-                <input type='hidden' name='bookingId' value={bookingId} />
 
                 <div className='flex justify-center sm:justify-end items-center'>
                     <SubmitButton>Update reservation</SubmitButton>

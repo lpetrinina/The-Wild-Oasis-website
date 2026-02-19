@@ -1,5 +1,4 @@
 function BreakfastOption({ hasBreakfast = false, breakfastPrice }) {
-    console.log(hasBreakfast)
 
     return (
         <div>

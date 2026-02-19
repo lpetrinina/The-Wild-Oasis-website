@@ -85,8 +85,7 @@ export async function createReservation(bookigData, formData) {
     redirect("/cabins/thank-you");
 }
 
-export async function updateReservation(formData) {
-    const bookingId = Number(formData.get("bookingId"));
+export async function updateReservation(bookingId, formData) {
 
     // Check if there is an authenticated user
     const session = await auth();
