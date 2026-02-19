@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { PencilSquareIcon, UsersIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, PencilSquareIcon, UsersIcon } from '@heroicons/react/24/solid';
 import { format, formatDistance, isPast, isToday, parseISO } from 'date-fns';
 import { MdBakeryDining } from "react-icons/md";
 
@@ -26,7 +26,7 @@ function ReservationCard({ booking, onDelete }) {
 
 
     return (
-        <div className='grid grid-cols-1 md:grid-cols-[120px_1fr_auto] border border-primary-800'>
+        <div className='grid grid-cols-1 md:grid-cols-[120px_1fr_120px] border border-primary-800'>
             <div className='relative aspect-video md:aspect-auto'>
                 <Image
                     src={image}
@@ -90,13 +90,13 @@ function ReservationCard({ booking, onDelete }) {
             </div>
 
             {/* Available for upcoming bookings */}
-            <div className='flex flex-row justify-center md:flex-col border-t border-l-0 md:border-t-0 md:border-l border-primary-800 h-12 md:h-auto md:w-25'>
+            <div className='flex flex-row justify-center md:flex-col border-t border-l-0 md:border-t-0 md:border-l border-primary-800 min-h-12 md:min-h-full '>
 
                 {!isPast(new Date(startDate)) ?
                     <>
                         <Link
                             href={`/account/reservations/edit/${id}`}
-                            className='group flex flex-1 items-center justify-center md:px-3 md:justify-start gap-2 uppercase text-xs font-bold text-primary-300 border-r border-b-0 md:border-b md:border-r-0 border-primary-800  hover:bg-accent-600 transition-colors hover:text-primary-900'
+                            className='group flex flex-1 items-center justify-center md:px-3 md:justify-start gap-2 uppercase text-xs font-bold  tracking-wide text-primary-300 border-r border-b-0 md:border-b md:border-r-0 border-primary-800  hover:bg-accent-600 transition-colors hover:text-primary-900'
                         >
                             <PencilSquareIcon className='h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors' />
                             <span className='mt-1'>Edit</span>
@@ -105,7 +105,9 @@ function ReservationCard({ booking, onDelete }) {
 
                         <DeleteReservation bookingId={id} onDelete={onDelete} />
                     </>
-                    : <p className='flex items-center text-primary-500 text-[10px] px-3'>Cannot change this reservation!</p>
+                    : <div className='flex items-center justify-center md:justify-start text-primary-400 px-3 '>
+                        <span className='text-xs font-semibold uppercase tracking-wide'>completed</span>
+                    </div>
                 }
             </div>
         </div >

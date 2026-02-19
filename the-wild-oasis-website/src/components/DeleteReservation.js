@@ -19,7 +19,7 @@ function DeleteReservation({ bookingId, onDelete }) {
 
 
     return (
-        <button onClick={handleDelete} className='group flex flex-1 items-center justify-center md:justify-start gap-2 md:px-3 uppercase text-xs font-bold text-primary-300 hover:bg-accent-600 transition-colors hover:text-primary-900'>
+        <button onClick={handleDelete} className='group flex flex-1 items-center justify-center md:justify-start gap-2 md:px-3 uppercase text-xs font-bold tracking-wide text-primary-300 hover:bg-accent-600 transition-colors hover:text-primary-900'>
             {!isPending ?
                 <>
                     <TrashIcon className='h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors' />
