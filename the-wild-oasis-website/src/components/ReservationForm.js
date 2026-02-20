@@ -15,10 +15,10 @@ function ReservationForm({ cabin, user, bookedDates, breakfastPrice }) {
     const { id, maxCapacity, regularPrice, discount } = cabin;
 
     const displayRange = isAlreadyBooked(range, bookedDates) ? { from: undefined, to: undefined } : range;
-    const hasSelectedRange = displayRange.from && displayRange.to;
+    const hasSelectedRange = displayRange?.from && displayRange?.to;
 
-    const startDate = range.from;
-    const endDate = range.to;
+    const startDate = range?.from;
+    const endDate = range?.to;
     const numNights = differenceInDays(endDate, startDate);
     const cabinPrice = numNights * (regularPrice - discount);
 
