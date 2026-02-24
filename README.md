@@ -5,6 +5,9 @@ This project focuses on mastering the core principles of Next.js, including rout
 
 🔍 See live demo [here](https://the-wild-oasis-website-luiza.vercel.app/)
 
+<img width="1918" height="1023" alt="image" src="https://github.com/user-attachments/assets/4d2c5793-bcc0-4b61-9980-10283e12d7f5" />
+
+
 ## Installation 
 
 ⚠️ Clone down this repository. You will need  `npm` installed globally on your machine.  
